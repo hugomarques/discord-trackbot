@@ -7,7 +7,7 @@ class BotCommands(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def fetch_messages(self, ctx, user_id: int, *channel_ids: int):
+    async def track(self, ctx, user_id: int, *channel_ids: int):
         if not channel_ids:
             await ctx.send("Please provide at least one channel ID.")
             return
