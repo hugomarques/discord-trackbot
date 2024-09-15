@@ -20,8 +20,8 @@ class BotCommands(commands.Cog):
     async def on_guild_join(self, guild: discord.Guild):
          logger.info(f'Joined guild: {guild.name}')
 
-    @app_commands.command(name="track", description="Find member messages on channels")
-    async def track(self, interaction: discord.Interaction, member: discord.Member, channels: str):
+    @app_commands.command(name="track_member", description="Find member messages on channels")
+    async def track_member(self, interaction: discord.Interaction, member: discord.Member, channels: str):
 
         channel_ids = [int(id.strip()) for id in channels.split(",")]
         if not channels:
@@ -42,7 +42,7 @@ class BotCommands(commands.Cog):
             
             
             if messages:
-                response_message = "The following channels have messages: \n"    
+                response_message = f"{member.display_name} has messages in the following channels: \n"    
                 response_message += "\n".join(f"{channel}: {count} messages" for channel, count in messages.items())
                 response_message += "\n-------------------------------\n" 
             # Send summary of valid and invalid channels
