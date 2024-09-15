@@ -4,7 +4,6 @@ from discord.errors import HTTPException
 
 async def fetch_user_messages(bot, user_id, channel_ids):
     all_messages = []
-    user = await bot.fetch_user(user_id)
 
     for channel_id in channel_ids:
         channel = bot.get_channel(channel_id)
