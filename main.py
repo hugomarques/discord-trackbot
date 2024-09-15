@@ -2,6 +2,14 @@ import os
 from dotenv import load_dotenv
 from bot.client import bot
 from flask import Flask
+import discord
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+logging.info("Main script started")
+logging.info(f"Discord version: {discord.__version__}")
 
 if os.path.exists('.env'):
     load_dotenv()
