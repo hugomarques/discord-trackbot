@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 from utils.message_fetcher import fetch_user_messages
 from utils.pagination import paginate_messages
 
@@ -15,22 +16,22 @@ class BotCommands(commands.Cog):
     async def on_guild_join(self, guild: discord.Guild):
          print(f'Joined guild: {guild.name}')
 
-    @commands.slash_command(name="track", description="Find member messages on channels")
-    async def track(self, ctx: discord.ApplicationContext, member: discord.Member, *channels: discord.TextChannel):
+    @app_commands.command(name="track", description="Find member messages on channels")
+    async def track(self, interaction: discord.Interaction, member: discord.Member, channels: str):
+        channel_ids = [int(id.strip()) for id in channels.split(",")]
         if not channels:
-            await ctx.send("Please provide at least one channel.")
+            await interaction.response.send_message("Please provide at least one channel.")
             return
 
         try:
             print(f'Getting data for user: {member.display_name}')
-            channel_ids = [channel.id for channel in channels]
             messages = await fetch_user_messages(self.bot, member.id, channel_ids)
             pages = paginate_messages(messages)
 
             for page in pages:
-                await ctx.send(page)
+                await interaction.response.send_message(page)
         except Exception as e:
-            await ctx.send(f"An error occurred: {str(e)}")
+            await interaction.response.send_message(f"An error occurred: {str(e)}")
 
 async def setup(bot):
     await bot.add_cog(BotCommands(bot))
